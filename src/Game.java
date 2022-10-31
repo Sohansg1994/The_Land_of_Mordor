@@ -10,6 +10,44 @@ public class Game {
     private MountDoom mountDoom = new MountDoom();
     private GameHelper gameHelper=new GameHelper();
 
+    public void setMonsterTreeCoordinates(Object object){
+        int x ,y;
+        boolean slotEmpty = true;
+        while (slotEmpty) {
+            x = (int) (Math.random() * 10);
+            y = (int) (Math.random() * 10);
+            if (map[x][y] == null) {
+                map[x][y]=object;
+                slotEmpty = false;
+            }
+        }
+
+
+    }
+
+    public void setWarriorsCoordinates(Warrior warrior){
+        int x,y;
+        boolean slotEmpty = true;
+        while (slotEmpty){
+            x = (int) (Math.random() * 10);
+            if (x==0){
+                y=(int)(Math.random()*10);
+            }else {y=0;}
+            if (map[x][y] == null){
+
+                map[x][y]=warrior;
+                warrior.setX(x);
+                warrior.setY(y);
+
+                slotEmpty = false;
+            }
+        }
+
+
+
+    }
+
+
 
 
     public void setGame() {
@@ -20,63 +58,23 @@ public class Game {
 
         for (int i = 0; i < 4; i++) {
             monstors.add(i, new Monstor());
-        }//create 4 Monsters & add to monsters list
+            setMonsterTreeCoordinates(monstors.get(i));
+        }//create 4 Monsters & set locations
         for (int i = 0; i < 4; i++) {
             trees.add(i, new Tree());
-        }//create 4 Trees & add to trees list
+            setMonsterTreeCoordinates(monstors.get(i));
+        }//create 4 Trees & set locations
         for (int i = 0; i < 4; i++) {
             warriors.add(i, new Warrior());
-        }//create 4 Warriors & add to warrior list
+            setWarriorsCoordinates(warriors.get(i));
+        }//create 4 Warriors & set locations
 
-
-        for (Monstor m: monstors) {
-            slotEmpty = true;
-            while (slotEmpty) {
-                x = (int) (Math.random() * 10);
-                y = (int) (Math.random() * 10);
-                if (map[x][y] == null) {
-                    map[x][y]=m;
-                    slotEmpty = false;
-                }
-            }
-        }//set locations to monsters & locate them in map
-        for (Tree t : trees) {
-            slotEmpty = true;
-            while (slotEmpty) {
-                x = (int) (Math.random() * 10);
-                y = (int) (Math.random() * 10);
-                if (map[x][y] == null) {
-                    map[x][y]=t;
-                    slotEmpty = false;
-                }
-            }
-        }//set locations to trees & locate them in map
-        for (Warrior w : warriors){
-            slotEmpty = true;
-            while (slotEmpty){
-                x = (int) (Math.random() * 10);
-                if (x==0){
-                    y=(int)(Math.random()*10);
-                }else {y=0;}
-                    if (map[x][y] == null){
-
-                        map[x][y]=w;
-                        w.setX(x);
-                        w.setY(y);
-                        System.out.println(x+" "+y);
-                        slotEmpty = false;
-                    }
-            }
-
-        } //set location to warriors & locate them in map
 
 
         warriors.get(0).setMap(map);
         warriors.get(1).setMap(map);
         warriors.get(2).setMap(map);
         warriors.get(3).setMap(map);
-        warriors.get(0).setWarriors(warriors);
-
 
 
 
@@ -84,14 +82,6 @@ public class Game {
 
     public void startGame(){
         warriors.get(0).start();
-        warriors.get(1).start();
-
-
-
-
-
-
-
 
     }
 

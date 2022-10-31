@@ -2,25 +2,14 @@ import java.util.ArrayList;
 
 public class Warrior extends Thread {
 
+
     private Object[][] map=new Object[10][10];
-    private ArrayList<Warrior> warriors = new ArrayList<>();
     private int x;
     private int y;
-
-
-
-    public void setWarriors(ArrayList<Warrior> warriors) {
-        this.warriors = warriors;
-    }
-
-    public Object[][] getMap() {
-        return map;
-    }
 
     public void setMap(Object[][] map) {
         this.map = map;
     }
-
 
 
     public int getX() {
@@ -38,6 +27,7 @@ public class Warrior extends Thread {
     public void setY(int y) {
         this.y = y;
     }
+
 
     @Override
     public void run() {
@@ -79,7 +69,9 @@ public class Warrior extends Thread {
                             check = false;
 
                         } else if (map[(m + x)][(n + y)].getClass() == Warrior.class) {
-                            if (m==0&&n==0){}
+                            if (m==0&&n==0){
+
+                            }
                             else {
                                 System.out.println("Another Warrior !!");}
                             check = false;
