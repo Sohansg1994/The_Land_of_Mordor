@@ -4,8 +4,23 @@ public class Warrior extends Thread {
 
 
     private Object[][] map=new Object[10][10];
+
+
+    private int warriorNum;
     private int x;
     private int y;
+
+    private boolean status =true;
+    private MountDoom mountDoom;
+
+    public void setWarriorNum(int warriorNum) {
+        this.warriorNum = warriorNum;
+    }
+
+    public void setMountDoom(MountDoom mountDoom) {
+        this.mountDoom = mountDoom;
+    }
+
 
     public void setMap(Object[][] map) {
         this.map = map;
@@ -28,12 +43,24 @@ public class Warrior extends Thread {
         this.y = y;
     }
 
+    public void getNotified(){
+        this.status=false;
+
+    }
+
+    public void update(MountDoom mountDoom){
+        mountDoom.notifySubscribers();
+
+    }
+
+
 
     @Override
     public void run() {
-        System.out.println("Start Location w:"+x+" "+y);
+
+        System.out.println("Warrior "+warriorNum+" Start Location :"+x+" "+y);
         int m, n;
-        boolean status =true;
+        //System.out.println("Warrior "+warriorNum+" Status : "+status);
 
         while (status) {
             boolean check = true;
@@ -53,16 +80,19 @@ public class Warrior extends Thread {
                         this.y = n + y;
                         map[x][y] = map[x-m][y-n];
                         map[x-m][y-n]=null;
-                        System.out.println("Warrior 1 moves to " + x + " " + y + " Slot");
+                        System.out.println("Warrior "+ warriorNum + " moves to " + x + " " + y + " Slot");
                         check = false;
 
                     } else {
                         if (map[(m + x)][(n + y)].getClass() == MountDoom.class) {
-                            System.out.println("YOU WON");
+                            update(mountDoom);
+                            System.out.println("Warrior "+warriorNum+"  WON ");
+                            System.out.println("Game Over !!");
                             this.x = m + x;
                             this.y = n + y;
                             check = false;
-                            status = false;
+
+
 
                         } else if (map[(m + x)][(n + y)].getClass() == Tree.class) {
                             System.out.println("Tree !!");
@@ -73,10 +103,11 @@ public class Warrior extends Thread {
 
                             }
                             else {
-                                System.out.println("Another Warrior !!");}
+                               //System.out.println("Another Warrior !!");
+                            }
                             check = false;
                         } else {
-                            System.out.println("A Monster ! , YOU ARE ELIMINATED ");
+                            System.out.println("A Monster ! , Warrior "+ warriorNum+ "  ELIMINATED ");
                             check = false;
                             status=false;
 

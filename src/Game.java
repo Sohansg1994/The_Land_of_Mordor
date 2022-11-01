@@ -8,7 +8,7 @@ public class Game {
     private ArrayList<Monstor> monstors = new ArrayList<>();
 
     private MountDoom mountDoom = new MountDoom();
-    private GameHelper gameHelper=new GameHelper();
+
 
     public void setMonsterTreeCoordinates(Object object){
         int x ,y;
@@ -67,14 +67,15 @@ public class Game {
         for (int i = 0; i < 4; i++) {
             warriors.add(i, new Warrior());
             setWarriorsCoordinates(warriors.get(i));
+            warriors.get(i).setMountDoom(mountDoom);
+            mountDoom.subscribe(warriors.get(i));
+            warriors.get(i).setWarriorNum(i+1);
+            warriors.get(i).setMap(map);
         }//create 4 Warriors & set locations
 
 
 
-        warriors.get(0).setMap(map);
-        warriors.get(1).setMap(map);
-        warriors.get(2).setMap(map);
-        warriors.get(3).setMap(map);
+
 
 
 
@@ -82,6 +83,11 @@ public class Game {
 
     public void startGame(){
         warriors.get(0).start();
+        warriors.get(1).start();
+        warriors.get(2).start();
+        warriors.get(3).start();
+
+
 
     }
 
