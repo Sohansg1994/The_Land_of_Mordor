@@ -1,17 +1,19 @@
-import java.util.ArrayList;
+
+import java.util.Random;
 
 public class Warrior extends Thread {
 
 
     private Object[][] map=new Object[10][10];
 
-
     private int warriorNum;
     private int x;
     private int y;
-
     private boolean status =true;
+    boolean check  ;
     private MountDoom mountDoom;
+
+    private final Random r=new Random();
 
     public void setWarriorNum(int warriorNum) {
         this.warriorNum = warriorNum;
@@ -21,22 +23,12 @@ public class Warrior extends Thread {
         this.mountDoom = mountDoom;
     }
 
-
     public void setMap(Object[][] map) {
         this.map = map;
     }
 
-
-    public int getX() {
-        return x;
-    }
-
     public void setX(int x) {
         this.x = x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     public void setY(int y) {
@@ -53,70 +45,78 @@ public class Warrior extends Thread {
 
     }
 
+    public void warriorMove(int m,int n){
+        this.x = m + x;
+        this.y = n + y;
+        map[x][y] = map[x-m][y-n];
+        map[x-m][y-n]=null;
+        System.out.println("Warrior "+ warriorNum + " moves to " + x + " " + y + " Slot");
+        this.check = false;
 
+    }
+    public void mountDoomFound(int m,int n){
+        update(mountDoom);
+        System.out.println("Warrior "+warriorNum+"  WON ");
+        System.out.println("Game Over !!");
+        this.x = m + x;
+        this.y = n + y;
+        this.check = false;
+
+
+    }
+
+    public void treeFound(){
+        System.out.println("Tree !!");
+        this.check = false;
+    }
+    public void warriorFound(){
+        System.out.println("Warrior"+warriorNum+" Another Warrior !!");
+        this.check = false;
+
+    }
+
+    public void monsterFound(){
+        System.out.println("A Monster ! , Warrior "+ warriorNum+ "  ELIMINATED ");
+        this.check = false;
+        this.status=false;
+    }
 
     @Override
     public void run() {
 
         System.out.println("Warrior "+warriorNum+" Start Location :"+x+" "+y);
-        int m, n;
-        //System.out.println("Warrior "+warriorNum+" Status : "+status);
+        int m;
+        int n;
+
 
         while (status) {
-            boolean check = true;
+            this.check=true;
             while (check) {
-
-                m = (int) (Math.random() * (2 + 2) - 2);
+                m = r.nextInt(-1,2);
                 if (m == 0) {
-                    n = (int) (Math.random() * (2 + 2) - 2);
+                    n = r.nextInt(-1,2);
                 } else {
                     n = 0;
                 }
+                if (m==0&&n==0){continue;}
 
                 if (((m + x) < 10 && (m + x) >= 0) && ((n + y) < 10 && (n + y) >= 0)) {
 
                     if (map[(m + x)][(n + y)] == null) {
-                        this.x = m + x;
-                        this.y = n + y;
-                        map[x][y] = map[x-m][y-n];
-                        map[x-m][y-n]=null;
-                        System.out.println("Warrior "+ warriorNum + " moves to " + x + " " + y + " Slot");
-                        check = false;
-
+                        warriorMove(m,n);
                     } else {
                         if (map[(m + x)][(n + y)].getClass() == MountDoom.class) {
-                            update(mountDoom);
-                            System.out.println("Warrior "+warriorNum+"  WON ");
-                            System.out.println("Game Over !!");
-                            this.x = m + x;
-                            this.y = n + y;
-                            check = false;
-
-
-
+                            mountDoomFound(m,n);
                         } else if (map[(m + x)][(n + y)].getClass() == Tree.class) {
-                            System.out.println("Tree !!");
-                            check = false;
-
+                                treeFound();
                         } else if (map[(m + x)][(n + y)].getClass() == Warrior.class) {
-                            if (m==0&&n==0){
-
-                            }
-                            else {
-                               //System.out.println("Another Warrior !!");
-                            }
-                            check = false;
+                                warriorFound();
                         } else {
-                            System.out.println("A Monster ! , Warrior "+ warriorNum+ "  ELIMINATED ");
-                            check = false;
-                            status=false;
-
+                            monsterFound();
                         }
                     }
 
 
-                } else {
-                    continue;
                 }
             }
         }
