@@ -1,11 +1,10 @@
-import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class Game {
     private Object[][] map = new Object[10][10];
     private ArrayList<Warrior> warriors = new ArrayList<>();
     private ArrayList<Tree> trees = new ArrayList<>();
-    private ArrayList<Monstor> monstors = new ArrayList<>();
+    private ArrayList<Monstor> monsters = new ArrayList<>();
 
     private MountDoom mountDoom = new MountDoom();
 
@@ -57,12 +56,12 @@ public class Game {
 
 
         for (int i = 0; i < 4; i++) {
-            monstors.add(i, new Monstor());
-            setMonsterTreeCoordinates(monstors.get(i));
+            monsters.add(i, new Monstor());
+            setMonsterTreeCoordinates(monsters.get(i));
         }//create 4 Monsters & set locations
         for (int i = 0; i < 4; i++) {
             trees.add(i, new Tree());
-            setMonsterTreeCoordinates(monstors.get(i));
+            setMonsterTreeCoordinates(monsters.get(i));
         }//create 4 Trees & set locations
         for (int i = 0; i < 4; i++) {
             warriors.add(i, new Warrior());

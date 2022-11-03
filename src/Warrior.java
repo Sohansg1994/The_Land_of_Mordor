@@ -1,8 +1,4 @@
-import java.util.ArrayList;
-
 public class Warrior extends Thread {
-
-
     private Object[][] map=new Object[10][10];
 
 
@@ -50,7 +46,6 @@ public class Warrior extends Thread {
 
     public void update(MountDoom mountDoom){
         mountDoom.notifySubscribers();
-
     }
 
 
@@ -66,6 +61,7 @@ public class Warrior extends Thread {
             boolean check = true;
             while (check) {
 
+                //
                 m = (int) (Math.random() * (2 + 2) - 2);
                 if (m == 0) {
                     n = (int) (Math.random() * (2 + 2) - 2);
