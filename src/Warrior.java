@@ -3,8 +3,7 @@ import java.util.Random;
 
 public class Warrior extends Thread {
 
-
-    private Object[][] map=new Object[10][10];
+    private GameMap gameMap;
 
     private int warriorNum;
     private int x;
@@ -23,8 +22,8 @@ public class Warrior extends Thread {
         this.mountDoom = mountDoom;
     }
 
-    public void setMap(Object[][] map) {
-        this.map = map;
+    public void setMap(GameMap gameMap) {
+        this.gameMap = gameMap;
     }
 
     public void setX(int x) {
@@ -37,23 +36,21 @@ public class Warrior extends Thread {
 
     public void getNotified(){
         this.status=false;
-
     }
 
     public void update(MountDoom mountDoom){
         mountDoom.notifySubscribers();
-
     }
 
-    public void warriorMove(int m,int n){
+    public void warriorMove(int m,int n) {
         this.x = m + x;
         this.y = n + y;
         map[x][y] = map[x-m][y-n];
         map[x-m][y-n]=null;
         System.out.println("Warrior "+ warriorNum + " moves to " + x + " " + y + " Slot");
         this.check = false;
-
     }
+
     public void mountDoomFound(int m,int n){
         update(mountDoom);
         System.out.println("Warrior "+warriorNum+"  WON ");
@@ -61,8 +58,6 @@ public class Warrior extends Thread {
         this.x = m + x;
         this.y = n + y;
         this.check = false;
-
-
     }
 
     public void treeFound(){
@@ -72,7 +67,6 @@ public class Warrior extends Thread {
     public void warriorFound(){
         System.out.println("Warrior"+warriorNum+" Another Warrior !!");
         this.check = false;
-
     }
 
     public void monsterFound(){
@@ -88,7 +82,6 @@ public class Warrior extends Thread {
         int m;
         int n;
 
-
         while (status) {
             this.check=true;
             while (check) {
@@ -102,21 +95,21 @@ public class Warrior extends Thread {
 
                 if (((m + x) < 10 && (m + x) >= 0) && ((n + y) < 10 && (n + y) >= 0)) {
 
-                    if (map[(m + x)][(n + y)] == null) {
-                        warriorMove(m,n);
-                    } else {
-                        if (map[(m + x)][(n + y)].getClass() == MountDoom.class) {
-                            mountDoomFound(m,n);
-                        } else if (map[(m + x)][(n + y)].getClass() == Tree.class) {
-                                treeFound();
-                        } else if (map[(m + x)][(n + y)].getClass() == Warrior.class) {
-                                warriorFound();
+                    synchronized (map) {
+                        if (map[(m + x)][(n + y)] == null) {
+                            warriorMove(m,n);
                         } else {
-                            monsterFound();
+                            if (map[(m + x)][(n + y)].getClass() == MountDoom.class) {
+                                mountDoomFound(m,n);
+                            } else if (map[(m + x)][(n + y)].getClass() == Tree.class) {
+                                treeFound();
+                            } else if (map[(m + x)][(n + y)].getClass() == Warrior.class) {
+                                warriorFound();
+                            } else {
+                                monsterFound();
+                            }
                         }
                     }
-
-
                 }
             }
         }
