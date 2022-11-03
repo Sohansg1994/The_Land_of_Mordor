@@ -12,7 +12,6 @@ public class Warrior extends Thread {
     private boolean status =true;
     private boolean check  ;
     private MountDoom mountDoom;
-
     private final Random r=new Random();
 
     public void setWarriorNum(int warriorNum) {

@@ -6,7 +6,6 @@ public class MountDoom {
     public void subscribe(Warrior w){
         warriors.add(w);
     }
-
     public void notifySubscribers(){
         for (Warrior w:warriors){
             w.getNotified();

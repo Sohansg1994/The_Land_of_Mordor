@@ -17,7 +17,6 @@ public class Game {
     public void setMonsterTreeCoordinates(Object object){
         int x ;
         int y ;
-
         boolean slotEmpty = true;
         while (slotEmpty) {
             x = r.nextInt(10);

@@ -3,5 +3,6 @@ public class GameLauncher {
         Game newGame = new Game();
         newGame.setGame();
         newGame.startGame();
+
     }
 }
