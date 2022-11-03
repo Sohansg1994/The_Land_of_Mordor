@@ -4,13 +4,13 @@ import java.util.Random;
 public class Warrior extends Thread {
 
 
-    private Object[][] map=new Object[10][10];
+    private  Object[][] map;
 
     private int warriorNum;
     private int x;
     private int y;
     private boolean status =true;
-    boolean check  ;
+    private boolean check  ;
     private MountDoom mountDoom;
 
     private final Random r=new Random();
@@ -81,6 +81,7 @@ public class Warrior extends Thread {
         this.status=false;
     }
 
+    @SuppressWarnings("SynchronizeOnNonFinalField")
     @Override
     public void run() {
 
@@ -102,23 +103,26 @@ public class Warrior extends Thread {
 
                 if (((m + x) < 10 && (m + x) >= 0) && ((n + y) < 10 && (n + y) >= 0)) {
 
-                    if (map[(m + x)][(n + y)] == null) {
-                        warriorMove(m,n);
-                    } else {
-                        if (map[(m + x)][(n + y)].getClass() == MountDoom.class) {
-                            mountDoomFound(m,n);
-                        } else if (map[(m + x)][(n + y)].getClass() == Tree.class) {
-                                treeFound();
-                        } else if (map[(m + x)][(n + y)].getClass() == Warrior.class) {
-                                warriorFound();
+                    synchronized (map) {
+
+                        if (map[(m + x)][(n + y)] == null) {
+                            warriorMove(m, n);
                         } else {
-                            monsterFound();
+                            if (map[(m + x)][(n + y)].getClass() == MountDoom.class) {
+                                mountDoomFound(m, n);
+                            } else if (map[(m + x)][(n + y)].getClass() == Tree.class) {
+                                treeFound();
+                            } else if (map[(m + x)][(n + y)].getClass() == Warrior.class) {
+                                warriorFound();
+                            } else {
+                                monsterFound();
+                            }
                         }
+
                     }
-
-
                 }
             }
+
         }
     }
 }

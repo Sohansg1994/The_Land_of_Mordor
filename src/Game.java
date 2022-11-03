@@ -3,15 +3,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Game {
-    private final Object[][] map = new Object[10][10];
-    private final ArrayList<Warrior> warriors = new ArrayList<>();
-    private final ArrayList<Tree> trees = new ArrayList<>();
-    private final ArrayList<Monstor> monstors = new ArrayList<>();
-
-    private final Random r=new Random();
-
-    private final MountDoom mountDoom = new MountDoom();
-
+    private final Object[][] map;
+    private final ArrayList<Warrior> warriors ;
+    private final Random r;
+    private final MountDoom mountDoom ;
+    public Game() {
+        this.map = new Object[10][10];
+        this.warriors = new ArrayList<>();
+        this.r=new Random();
+        this.mountDoom = new MountDoom();
+    }
 
     public void setMonsterTreeCoordinates(Object object){
         int x ;
@@ -62,20 +63,21 @@ public class Game {
 
 
         for (int i = 0; i < 4; i++) {
-            monstors.add(i, new Monstor());
-            setMonsterTreeCoordinates(monstors.get(i));
+            Monstor monstor=new Monstor();
+            setMonsterTreeCoordinates(monstor);
         }//create 4 Monsters & set locations
         for (int i = 0; i < 4; i++) {
-            trees.add(i, new Tree());
-            setMonsterTreeCoordinates(trees.get(i));
+            Tree tree =new Tree();
+            setMonsterTreeCoordinates(tree);
         }//create 4 Trees & set locations
         for (int i = 0; i < 4; i++) {
-            warriors.add(i, new Warrior());
-            setWarriorsCoordinates(warriors.get(i));
-            warriors.get(i).setMountDoom(mountDoom);
-            mountDoom.subscribe(warriors.get(i));
-            warriors.get(i).setWarriorNum(i+1);
-            warriors.get(i).setMap(map);
+            Warrior warrior=new Warrior();
+            warriors.add(i, warrior);
+            setWarriorsCoordinates(warrior);
+            warrior.setMountDoom(mountDoom);
+            mountDoom.subscribe(warrior);
+            warrior.setWarriorNum(i+1);
+            warrior.setMap(map);
         }//create 4 Warriors & set locations
 
 
