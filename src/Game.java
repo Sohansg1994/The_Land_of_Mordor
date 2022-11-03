@@ -1,20 +1,26 @@
+
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game {
-    private Object[][] map = new Object[10][10];
-    private ArrayList<Warrior> warriors = new ArrayList<>();
-    private ArrayList<Tree> trees = new ArrayList<>();
-    private ArrayList<Monstor> monsters = new ArrayList<>();
+    private final Object[][] map = new Object[10][10];
+    private final ArrayList<Warrior> warriors = new ArrayList<>();
+    private final ArrayList<Tree> trees = new ArrayList<>();
+    private final ArrayList<Monstor> monstors = new ArrayList<>();
 
-    private MountDoom mountDoom = new MountDoom();
+    private final Random r=new Random();
+
+    private final MountDoom mountDoom = new MountDoom();
 
 
     public void setMonsterTreeCoordinates(Object object){
-        int x ,y;
+        int x ;
+        int y ;
+
         boolean slotEmpty = true;
         while (slotEmpty) {
-            x = (int) (Math.random() * 10);
-            y = (int) (Math.random() * 10);
+            x = r.nextInt(10);
+            y = r.nextInt(10);
             if (map[x][y] == null) {
                 map[x][y]=object;
                 slotEmpty = false;
@@ -25,12 +31,13 @@ public class Game {
     }
 
     public void setWarriorsCoordinates(Warrior warrior){
-        int x,y;
+        int x;
+        int y;
         boolean slotEmpty = true;
         while (slotEmpty){
-            x = (int) (Math.random() * 10);
+            x = r.nextInt(10);
             if (x==0){
-                y=(int)(Math.random()*10);
+                y=r.nextInt(10);
             }else {y=0;}
             if (map[x][y] == null){
 
@@ -50,18 +57,17 @@ public class Game {
 
 
     public void setGame() {
-        int x, y;
-        boolean slotEmpty;
+
         map[5][5] = mountDoom; //set coordinates to mountDoom
 
 
         for (int i = 0; i < 4; i++) {
-            monsters.add(i, new Monstor());
-            setMonsterTreeCoordinates(monsters.get(i));
+            monstors.add(i, new Monstor());
+            setMonsterTreeCoordinates(monstors.get(i));
         }//create 4 Monsters & set locations
         for (int i = 0; i < 4; i++) {
             trees.add(i, new Tree());
-            setMonsterTreeCoordinates(monsters.get(i));
+            setMonsterTreeCoordinates(trees.get(i));
         }//create 4 Trees & set locations
         for (int i = 0; i < 4; i++) {
             warriors.add(i, new Warrior());
