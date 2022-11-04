@@ -57,6 +57,7 @@ public class Warrior extends Thread {
         update(mountDoom);
         System.out.println("Warrior "+warriorNum+"  WON ");
         System.out.println("Game Over !!");
+
         this.x = m + x;
         this.y = n + y;
         this.check = false;
@@ -103,6 +104,9 @@ public class Warrior extends Thread {
                 if (((m + x) < 10 && (m + x) >= 0) && ((n + y) < 10 && (n + y) >= 0)) {
 
                     synchronized (map) {
+                       if (!status){
+                           break;
+                       }
 
                         if (map[(m + x)][(n + y)] == null) {
                             warriorMove(m, n);
