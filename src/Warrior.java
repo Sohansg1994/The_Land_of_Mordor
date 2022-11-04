@@ -3,47 +3,35 @@ import java.util.Random;
 
 public class Warrior extends Thread {
 
+    protected   Object[][] map;
+    protected final int warriorNum;
+    protected int x;
+    protected int y;
+    protected boolean status ;
+    protected boolean check  ;
+    private final MountDoom mountDoom;
+    protected final Random r;
 
-    private  Object[][] map;
-
-    private int warriorNum;
-    private int x;
-    private int y;
-    private boolean status =true;
-    private boolean check  ;
-    private MountDoom mountDoom;
-    private final Random r=new Random();
-
-    public void setWarriorNum(int warriorNum) {
-        this.warriorNum = warriorNum;
-    }
-
-    public void setMountDoom(MountDoom mountDoom) {
-        this.mountDoom = mountDoom;
-    }
-
-    public void setMap(Object[][] map) {
+    public Warrior(Object[][] map, int warriorNum,   MountDoom mountDoom) {
         this.map = map;
+        this.warriorNum = warriorNum;
+        this.status = true;
+        this.check = true;
+        this.mountDoom = mountDoom;
+        this.r=new Random();
     }
-
     public void setX(int x) {
         this.x = x;
     }
-
     public void setY(int y) {
         this.y = y;
     }
-
     public void getNotified(){
         this.status=false;
-
     }
-
     public void update(MountDoom mountDoom){
         mountDoom.notifySubscribers();
-
     }
-
     public void warriorMove(int m,int n){
         this.x = m + x;
         this.y = n + y;
@@ -66,11 +54,11 @@ public class Warrior extends Thread {
     }
 
     public void treeFound(){
-        System.out.println("Tree !!");
+        System.out.println("Warrior "+warriorNum+" found"+"Tree !!");
         this.check = false;
     }
     public void warriorFound(){
-        System.out.println("Warrior"+warriorNum+" Another Warrior !!");
+        System.out.println("Warrior "+warriorNum+" Another Warrior !!");
         this.check = false;
 
     }

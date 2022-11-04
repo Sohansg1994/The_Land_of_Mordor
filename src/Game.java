@@ -70,20 +70,18 @@ public class Game {
             setMonsterTreeCoordinates(tree);
         }//create 4 Trees & set locations
         for (int i = 0; i < 4; i++) {
-            Warrior warrior=new Warrior();
+            Warrior warrior=new Warrior(map,i+1,mountDoom);
             warriors.add(i, warrior);
             setWarriorsCoordinates(warrior);
-            warrior.setMountDoom(mountDoom);
             mountDoom.subscribe(warrior);
-            warrior.setWarriorNum(i+1);
-            warrior.setMap(map);
+
+
         }//create 4 Warriors & set locations
 
-
-
-
-
-
+        SuperWarrior superWarrior=new SuperWarrior(map,warriors.size()+1,mountDoom);
+        warriors.add(superWarrior);
+        setWarriorsCoordinates(superWarrior);
+        mountDoom.subscribe(superWarrior);    //Create SuperWarrior & Set locations
 
     }
 
@@ -92,6 +90,8 @@ public class Game {
         warriors.get(1).start();
         warriors.get(2).start();
         warriors.get(3).start();
+        warriors.get(4).start();
+
 
 
 
